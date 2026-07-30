@@ -195,6 +195,29 @@
     background:transparent;border:none;padding:0 18px;min-height:var(--tap);transition:color .2s ease;
   }
   .role-toggle button[aria-pressed="true"]{color:var(--accent-deep);}
+
+  /* ---------- i18n ---------- */
+  [data-lang][hidden]{display:none !important;}
+  .lang-toggle{
+    display:inline-flex;border:1px solid var(--border-strong);border-radius:8px;overflow:hidden;
+    background:#fff;margin-right:10px;
+  }
+  .lang-toggle button{
+    font-family:var(--font-mono);font-size:12.5px;font-weight:600;color:var(--ink-faint);
+    background:transparent;border:none;padding:0 12px;min-height:40px;transition:all .15s ease;
+  }
+  .lang-toggle button[aria-pressed="true"]{background:var(--accent-pale);color:var(--accent-deep);}
+  .lang-toggle-mobile{
+    display:inline-flex;border:1px solid var(--border-strong);border-radius:8px;overflow:hidden;
+    background:#fff;margin:6px 0 10px;
+  }
+  .lang-toggle-mobile button{
+    font-family:var(--font-mono);font-size:13px;font-weight:600;color:var(--ink-faint);
+    background:transparent;border:none;padding:0 16px;min-height:44px;transition:all .15s ease;
+  }
+  .lang-toggle-mobile button[aria-pressed="true"]{background:var(--accent-pale);color:var(--accent-deep);}
+  @media (max-width:880px){ .lang-toggle{display:none;} }
+  @media (min-width:881px){ .lang-toggle-mobile{display:none;} }
   @media (prefers-reduced-motion:reduce){ .role-toggle-thumb{transition:none;} }
   .role-note{font-family:var(--font-mono);font-size:11.5px;color:var(--ink-faint);margin-top:10px;min-height:16px;}
   .cta-row{display:flex;gap:10px;margin-top:8px;flex-wrap:wrap;}
@@ -421,9 +444,6 @@
   .testi-tags{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap;}
   .testi-person{font-size:12px;color:var(--ink-dim);border-top:1px solid var(--border);padding-top:12px;}
   .testi-person b{color:var(--ink);display:block;font-size:12.5px;}
-  .testi-card.reserved{border:1.5px dashed var(--border-strong);background:transparent;align-items:center;justify-content:center;text-align:center;color:var(--ink-faint);min-height:190px;box-shadow:none;}
-  .testi-card.reserved .plus{font-size:22px;margin-bottom:8px;font-family:var(--font-mono);}
-  .testi-card.reserved span{font-family:var(--font-mono);font-size:11.5px;line-height:1.6;}
   @media (max-width:900px){ .results-stats,.testi-grid{grid-template-columns:1fr 1fr;} }
   @media (max-width:600px){ .results-stats,.testi-grid{grid-template-columns:1fr;} }
 
@@ -491,23 +511,31 @@
   <div class="nav">
     <a href="#" class="logo" aria-label="Pando — accueil">pand<span>.</span>ooo<small>keep humans in the looop!</small></a>
     <nav class="navlinks" aria-label="Navigation principale">
-      <a href="#problem">Le problème</a>
+      <a href="#problem"><span data-lang="fr">Le problème</span><span data-lang="en" hidden>The problem</span></a>
       <a href="#solutions">Solutions</a>
-      <a href="#technology">Technologie</a>
-      <a href="#trust">Confiance &amp; RGPD</a>
-      <a href="#customers">Clients</a>
+      <a href="#technology"><span data-lang="fr">Technologie</span><span data-lang="en" hidden>Technology</span></a>
+      <a href="#trust"><span data-lang="fr">Confiance &amp; RGPD</span><span data-lang="en" hidden>Trust &amp; GDPR</span></a>
+      <a href="#customers"><span data-lang="fr">Clients</span><span data-lang="en" hidden>Customers</span></a>
     </nav>
-    <button class="btn" onclick="focusHeroEmail()">Demander une démo</button>
+    <div class="lang-toggle" role="group" aria-label="Choisir la langue / Choose language" id="langToggle">
+      <button aria-pressed="true" data-lang-btn="fr">FR</button>
+      <button aria-pressed="false" data-lang-btn="en">EN</button>
+    </div>
+    <button class="btn" onclick="focusHeroEmail()"><span data-lang="fr">Demander une démo</span><span data-lang="en" hidden>Request a demo</span></button>
     <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="mobileMenu" aria-label="Ouvrir le menu">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
     </button>
   </div>
   <nav class="mobile-menu" id="mobileMenu" aria-label="Navigation mobile">
-    <a href="#problem">Le problème</a>
+    <div class="lang-toggle-mobile" role="group" aria-label="Choisir la langue / Choose language" id="langToggleMobile">
+      <button aria-pressed="true" data-lang-btn="fr">Français</button>
+      <button aria-pressed="false" data-lang-btn="en">English</button>
+    </div>
+    <a href="#problem"><span data-lang="fr">Le problème</span><span data-lang="en" hidden>The problem</span></a>
     <a href="#solutions">Solutions</a>
-    <a href="#technology">Technologie</a>
-    <a href="#trust">Confiance &amp; RGPD</a>
-    <a href="#customers">Clients</a>
+    <a href="#technology"><span data-lang="fr">Technologie</span><span data-lang="en" hidden>Technology</span></a>
+    <a href="#trust"><span data-lang="fr">Confiance &amp; RGPD</span><span data-lang="en" hidden>Trust &amp; GDPR</span></a>
+    <a href="#customers"><span data-lang="fr">Clients</span><span data-lang="en" hidden>Customers</span></a>
   </nav>
 </header>
 
@@ -532,44 +560,44 @@
   </svg>
   <div class="wrap hero-grid">
     <div>
-      <p class="eyebrow">Intelligence vocale conversationnelle</p>
-      <h1 id="hero-title">Pando appelle vos interlocuteurs et découvre ce qu'ils <span class="ink-mark" id="inkMark">pensent vraiment</span>.</h1>
-      <p class="lede">Un compagnon vocal IA qui échange avec vos parties prenantes, puis transforme chaque conversation en une carte vivante et vérifiable de ce qu'elles pensent réellement.</p>
+      <p class="eyebrow"><span data-lang="fr">Intelligence vocale conversationnelle</span><span data-lang="en" hidden>Conversational voice intelligence</span></p>
+      <h1 id="hero-title"><span data-lang="fr">Pando appelle vos interlocuteurs et découvre ce qu'ils <span class="ink-mark">pensent vraiment</span>.</span><span data-lang="en" hidden>Pando calls your people and learns what they <span class="ink-mark">actually think</span>.</span></h1>
+      <p class="lede"><span data-lang="fr">Un compagnon vocal IA qui échange avec vos parties prenantes, puis transforme chaque conversation en une carte vivante et vérifiable de ce qu'elles pensent réellement.</span><span data-lang="en" hidden>A voice-AI companion that talks with your stakeholders, then turns every conversation into a living, verifiable map of what they really think.</span></p>
 
       <div class="role-select">
-        <span class="role-label" id="roleLabel">Je m'intéresse à ça pour</span>
+        <span class="role-label" id="roleLabel"><span data-lang="fr">Je m'intéresse à ça pour</span><span data-lang="en" hidden>I'm exploring this for</span></span>
         <div class="role-toggle" role="group" aria-labelledby="roleLabel" id="roleToggle">
           <span class="role-toggle-thumb" id="roleThumb" aria-hidden="true"></span>
-          <button aria-pressed="true" data-role="public">Secteur public</button>
-          <button aria-pressed="false" data-role="enterprise">Entreprise &amp; CX</button>
+          <button aria-pressed="true" data-role="public"><span data-lang="fr">Secteur public</span><span data-lang="en" hidden>Public sector</span></button>
+          <button aria-pressed="false" data-role="enterprise"><span data-lang="fr">Entreprise &amp; CX</span><span data-lang="en" hidden>Enterprise &amp; CX</span></button>
         </div>
-        <p class="role-note" id="roleNote" aria-live="polite">Nous adapterons votre démo aux cas d'usage de retour citoyen et de consultation publique.</p>
+        <p class="role-note" id="roleNote" aria-live="polite"></p>
       </div>
 
       <form class="cta-row" id="heroForm" data-source="Hero">
-        <label class="sr-only" for="hero-email">Email professionnel</label>
-        <input id="hero-email" class="cta-input" type="email" name="email" autocomplete="email" inputmode="email" placeholder="Entrez votre email professionnel" required>
-        <button class="btn" type="submit">Demander une démo →</button>
+        <label class="sr-only" for="hero-email"><span data-lang="fr">Email professionnel</span><span data-lang="en" hidden>Professional email</span></label>
+        <input id="hero-email" class="cta-input" type="email" name="email" autocomplete="email" inputmode="email" placeholder="Entrez votre email professionnel" data-i18n-fr-placeholder="Entrez votre email professionnel" data-i18n-en-placeholder="Enter your professional email" required>
+        <button class="btn" type="submit"><span data-lang="fr">Demander une démo →</span><span data-lang="en" hidden>Request a demo →</span></button>
       </form>
-      <p class="form-confirm" id="heroConfirm">✓ Merci — nous vous recontactons sous 24h.</p>
-      <p class="cta-micro">Présentation de 15 minutes · sans engagement · consentement RGPD garanti</p>
+      <p class="form-confirm" id="heroConfirm"><span data-lang="fr">✓ Merci — votre demande a bien été envoyée.</span><span data-lang="en" hidden>✓ Thanks — your request has been sent.</span></p>
+      <p class="cta-micro"><span data-lang="fr">Présentation de 15 minutes · sans engagement · consentement RGPD garanti</span><span data-lang="en" hidden>15-minute walkthrough · no commitment · GDPR consent-first</span></p>
 
       <div class="stat-strip reveal">
-        <p class="stat"><b data-countup>10x</b> plus riche qu'un sondage</p>
-        <p class="stat"><b data-countup>100%</b> traçable à la source</p>
-        <p class="stat"><b>RGPD</b>, consentement garanti dès la conception</p>
+        <p class="stat"><b data-countup>10x</b> <span data-lang="fr">plus riche qu'un sondage</span><span data-lang="en" hidden>deeper than surveys</span></p>
+        <p class="stat"><b data-countup>100%</b> <span data-lang="fr">traçable à la source</span><span data-lang="en" hidden>traceable to source</span></p>
+        <p class="stat"><span data-lang="fr"><b>RGPD</b>, consentement garanti dès la conception</span><span data-lang="en" hidden><b>GDPR</b> consent-first by design</span></p>
       </div>
     </div>
 
-    <div class="phone" role="img" aria-label="Maquette de téléphone montrant une démo de conversation vocale Pando en direct, avec un Trust Score de 92">
+    <div class="phone" role="img" aria-label="Pando phone demo">
       <div class="phone-screen" aria-hidden="true">
-        <div class="phone-status"><span>agent pando · en direct</span><span id="callTimer">00:00</span></div>
-        <div class="phone-tag">Transcription en direct</div>
+        <div class="phone-status"><span><span data-lang="fr">agent pando · en direct</span><span data-lang="en" hidden>pando agent · live</span></span><span id="callTimer">00:00</span></div>
+        <div class="phone-tag"><span data-lang="fr">Transcription en direct</span><span data-lang="en" hidden>Live transcript</span></div>
         <div id="demoFlow">
-          <div class="bubble them" data-step>Bonjour Léa, vous avez trois minutes pour parler de votre visite d'hier ?</div>
-          <div class="bubble me" data-step>Oui, je vous écoute.</div>
-          <div class="bubble them" data-step>Parfait. Quelle est la première chose à améliorer selon vous ?</div>
-          <div class="bubble me" data-step>Honnêtement, l'attente était un peu longue — l'accueil pourrait être bien plus fluide.</div>
+          <div class="bubble them" data-step><span data-lang="fr">Bonjour Léa, vous avez trois minutes pour parler de votre visite d'hier ?</span><span data-lang="en" hidden>Hi Léa — got three minutes to talk about yesterday's visit?</span></div>
+          <div class="bubble me" data-step><span data-lang="fr">Oui, je vous écoute.</span><span data-lang="en" hidden>Sure, go ahead.</span></div>
+          <div class="bubble them" data-step><span data-lang="fr">Parfait. Quelle est la première chose à améliorer selon vous ?</span><span data-lang="en" hidden>Great. What's the one thing we should fix first?</span></div>
+          <div class="bubble me" data-step><span data-lang="fr">Honnêtement, l'attente était un peu longue — l'accueil pourrait être bien plus fluide.</span><span data-lang="en" hidden>Honestly, the wait was a bit long — check-in could be a lot smoother.</span></div>
           <div class="analysis-row" data-step>
             <span class="datatag">#wait_time</span><span class="datatag">#check_in</span><span class="datatag lime">sentiment −0.4</span>
           </div>
@@ -583,8 +611,8 @@
 
 <section class="logos-section" aria-label="Partenaires institutionnels">
   <div class="wrap">
-    <p class="eyebrow">Écosystèmes &amp; programmes</p>
-    <p class="lbl">Soutenu par les institutions qui construisent demain.</p>
+    <p class="eyebrow"><span data-lang="fr">Écosystèmes &amp; programmes</span><span data-lang="en" hidden>Ecosystems &amp; programs</span></p>
+    <p class="lbl"><span data-lang="fr">Soutenu par les institutions qui construisent demain.</span><span data-lang="en" hidden>Backed by the institutions building what's next.</span></p>
     <div class="logo-row">
       <span>Swiss Confederation — Innosuisse</span>
       <span>JETRO</span>
@@ -599,34 +627,34 @@
 <section class="section" id="problem" aria-labelledby="problem-title">
   <div class="wrap">
     <div class="section-head reveal">
-      <p class="eyebrow">Le défi</p>
-      <h2 id="problem-title">Deux forces, une décision qui s'érode</h2>
-      <p class="lede">Le feedback traditionnel et le bruit synthétique tirent tous deux dans la même direction — loin de la vérité. Pando redirige le signal.</p>
+      <p class="eyebrow"><span data-lang="fr">Le défi</span><span data-lang="en" hidden>The challenge</span></p>
+      <h2 id="problem-title"><span data-lang="fr">Deux forces, une décision qui s'érode</span><span data-lang="en" hidden>Two forces, one eroded decision</span></h2>
+      <p class="lede"><span data-lang="fr">Le feedback traditionnel et le bruit synthétique tirent tous deux dans la même direction — loin de la vérité. Pando redirige le signal.</span><span data-lang="en" hidden>Traditional feedback and synthetic noise both push in the same direction — away from the truth. Pando redirects the signal.</span></p>
     </div>
 
-    <div class="schema" role="img" aria-label="Schéma : le manque de feedback et le déficit de confiance mènent à des décisions érodées ; Pando les transforme en un signal vivant et vérifié">
+    <div class="schema" role="img" aria-label="Pando problem diagram">
       <div class="schema-col reveal">
         <div class="schema-node">
-          <span class="tag">01 — Manque de feedback</span>
-          <h4>Des instantanés, pas un signal</h4>
-          <p>Le feedback traditionnel est passif et superficiel — un instant capté, jamais le ressenti vivant dont les vraies décisions ont besoin.</p>
+          <span class="tag"><span data-lang="fr">01 — Manque de feedback</span><span data-lang="en" hidden>01 — Feedback gap</span></span>
+          <h4><span data-lang="fr">Des instantanés, pas un signal</span><span data-lang="en" hidden>Snapshots, not signal</span></h4>
+          <p><span data-lang="fr">Le feedback traditionnel est passif et superficiel — un instant capté, jamais le ressenti vivant dont les vraies décisions ont besoin.</span><span data-lang="en" hidden>Traditional feedback is passive and shallow — a moment captured, never the living sentiment real decisions require.</span></p>
         </div>
         <div class="schema-node">
-          <span class="tag">02 — Déficit de confiance</span>
-          <h4>Bruit synthétique</h4>
-          <p>L'IA générative rend l'authenticité plus difficile à vérifier que jamais — affaiblissant les décisions et érodant la confiance des parties prenantes.</p>
+          <span class="tag"><span data-lang="fr">02 — Déficit de confiance</span><span data-lang="en" hidden>02 — Trust deficit</span></span>
+          <h4><span data-lang="fr">Bruit synthétique</span><span data-lang="en" hidden>Synthetic noise</span></h4>
+          <p><span data-lang="fr">L'IA générative rend l'authenticité plus difficile à vérifier que jamais — affaiblissant les décisions et érodant la confiance des parties prenantes.</span><span data-lang="en" hidden>Generative AI makes authenticity harder to verify than ever — weakening decisions and eroding stakeholder trust.</span></p>
         </div>
       </div>
       <span class="schema-arrow" aria-hidden="true">→</span>
       <div class="schema-center reveal r1">
-        <span class="tag">Résultat</span>
-        <h4>Décisions érodées</h4>
+        <span class="tag"><span data-lang="fr">Résultat</span><span data-lang="en" hidden>Result</span></span>
+        <h4><span data-lang="fr">Décisions érodées</span><span data-lang="en" hidden>Eroded decisions</span></h4>
       </div>
       <span class="schema-arrow" aria-hidden="true">→</span>
       <div class="schema-outcome reveal r2">
         <span class="tag">Pando</span>
-        <h4>Un signal vivant et vérifié</h4>
-        <p>Traçable à la source, noté pour sa fiabilité, toujours à jour.</p>
+        <h4><span data-lang="fr">Un signal vivant et vérifié</span><span data-lang="en" hidden>Verified, living signal</span></h4>
+        <p><span data-lang="fr">Traçable à la source, noté pour sa fiabilité, toujours à jour.</span><span data-lang="en" hidden>Traceable to source, scored for trust, always current.</span></p>
       </div>
     </div>
   </div>
@@ -636,86 +664,86 @@
   <div class="wrap">
     <div class="section-head reveal">
       <p class="eyebrow">Solutions</p>
-      <h2 id="solutions-title">Cinq étapes, une boucle vivante</h2>
-      <p class="lede">Chaque conversation suit la même boucle — et chaque passage affine l'intelligence collective. Sélectionnez une étape pour la voir en action.</p>
+      <h2 id="solutions-title"><span data-lang="fr">Cinq étapes, une boucle vivante</span><span data-lang="en" hidden>Five steps, one living loop</span></h2>
+      <p class="lede"><span data-lang="fr">Chaque conversation suit la même boucle — et chaque passage affine l'intelligence collective. Sélectionnez une étape pour la voir en action.</span><span data-lang="en" hidden>Every conversation moves through the same loop — and every pass makes the collective intelligence sharper. Select a step to see it in action.</span></p>
     </div>
 
     <div class="tabs-grid reveal">
       <div class="tabs-wrap">
-      <div class="tabs-list" role="tablist" aria-label="Étapes du produit" aria-orientation="vertical">
+      <div class="tabs-list" role="tablist" aria-label="Product steps" aria-orientation="vertical">
         <button class="tab-item" role="tab" id="tab-0" aria-selected="true" aria-controls="panel-0">
           <span class="tab-num" aria-hidden="true">01</span>
-          <span><span class="tab-title">Engager</span><span class="tab-sub">Voix, chat ou appel</span></span>
+          <span><span class="tab-title"><span data-lang="fr">Engager</span><span data-lang="en" hidden>Engage</span></span><span class="tab-sub"><span data-lang="fr">Voix, chat ou appel</span><span data-lang="en" hidden>Voice, chat or call</span></span></span>
         </button>
         <button class="tab-item" role="tab" id="tab-1" aria-selected="false" aria-controls="panel-1" tabindex="-1">
           <span class="tab-num" aria-hidden="true">02</span>
-          <span><span class="tab-title">Collecter</span><span class="tab-sub">Ton, hésitation, vraie profondeur</span></span>
+          <span><span class="tab-title"><span data-lang="fr">Collecter</span><span data-lang="en" hidden>Collect</span></span><span class="tab-sub"><span data-lang="fr">Ton, hésitation, vraie profondeur</span><span data-lang="en" hidden>Tone, hesitation, real depth</span></span></span>
         </button>
         <button class="tab-item" role="tab" id="tab-2" aria-selected="false" aria-controls="panel-2" tabindex="-1">
           <span class="tab-num" aria-hidden="true">03</span>
-          <span><span class="tab-title">Adapter</span><span class="tab-sub">Chaque profil, son propre fil</span></span>
+          <span><span class="tab-title"><span data-lang="fr">Adapter</span><span data-lang="en" hidden>Adapt</span></span><span class="tab-sub"><span data-lang="fr">Chaque profil, son propre fil</span><span data-lang="en" hidden>Every profile, its own thread</span></span></span>
         </button>
         <button class="tab-item" role="tab" id="tab-3" aria-selected="false" aria-controls="panel-3" tabindex="-1">
           <span class="tab-num" aria-hidden="true">04</span>
-          <span><span class="tab-title">Synthétiser</span><span class="tab-sub">Des thèmes à classer et exploiter</span></span>
+          <span><span class="tab-title"><span data-lang="fr">Synthétiser</span><span data-lang="en" hidden>Synthesize</span></span><span class="tab-sub"><span data-lang="fr">Des thèmes à classer et exploiter</span><span data-lang="en" hidden>Themes you can rank and act on</span></span></span>
         </button>
         <button class="tab-item" role="tab" id="tab-4" aria-selected="false" aria-controls="panel-4" tabindex="-1">
           <span class="tab-num" aria-hidden="true">05</span>
-          <span><span class="tab-title">Refléter</span><span class="tab-sub">Noté, traçable, toujours à jour</span></span>
+          <span><span class="tab-title"><span data-lang="fr">Refléter</span><span data-lang="en" hidden>Reflect</span></span><span class="tab-sub"><span data-lang="fr">Noté, traçable, toujours à jour</span><span data-lang="en" hidden>Scored, traceable, always current</span></span></span>
         </button>
       </div>
       </div>
       <p class="tab-hint" aria-hidden="true">
-        <span>Glissez pour voir plus d'étapes</span>
+        <span><span data-lang="fr">Glissez pour voir plus d'étapes</span><span data-lang="en" hidden>Swipe for more steps</span></span>
         <span class="tab-dots" id="tabDots"><i class="on"></i><i></i><i></i><i></i><i></i></span>
       </p>
 
       <div>
         <div class="tab-panel" role="tabpanel" id="panel-0" aria-labelledby="tab-0">
-          <p class="lede">Ouvre la conversation là où vos interlocuteurs se trouvent déjà — voix, chat ou appel.</p>
+          <p class="lede"><span data-lang="fr">Ouvre la conversation là où vos interlocuteurs se trouvent déjà — voix, chat ou appel.</span><span data-lang="en" hidden>Opens the conversation where your people already are — voice, chat or call.</span></p>
           <div class="example-card">
             <div class="bubble-row">
-              <div class="bubble them">Bonjour Léa, vous avez trois minutes pour parler de votre visite d'hier ?</div>
-              <div class="bubble me">Oui, je vous écoute.</div>
+              <div class="bubble them"><span data-lang="fr">Bonjour Léa, vous avez trois minutes pour parler de votre visite d'hier ?</span><span data-lang="en" hidden>Hi Léa — got three minutes to talk about yesterday's visit?</span></div>
+              <div class="bubble me"><span data-lang="fr">Oui, je vous écoute.</span><span data-lang="en" hidden>Sure, go ahead.</span></div>
             </div>
-            <div class="tagrow"><span class="datatag">voix · fr-FR</span><span class="datatag lime">consentement confirmé</span></div>
+            <div class="tagrow"><span class="datatag">voix · fr-FR</span><span class="datatag lime"><span data-lang="fr">consentement confirmé</span><span data-lang="en" hidden>opt-in confirmed</span></span></div>
           </div>
         </div>
         <div class="tab-panel" role="tabpanel" id="panel-1" aria-labelledby="tab-1" hidden>
-          <p class="lede">Capture une vraie profondeur en direct — le ton, l'hésitation et les mots derrière la note.</p>
+          <p class="lede"><span data-lang="fr">Capture une vraie profondeur en direct — le ton, l'hésitation et les mots derrière la note.</span><span data-lang="en" hidden>Captures real depth live — tone, hesitation and the words behind the rating.</span></p>
           <div class="example-card">
             <div class="bubble-row">
-              <div class="bubble them">« Honnêtement, l'attente était un peu longue — l'accueil pourrait être bien plus fluide. »</div>
+              <div class="bubble them"><span data-lang="fr">« Honnêtement, l'attente était un peu longue — l'accueil pourrait être bien plus fluide. »</span><span data-lang="en" hidden>“Honestly, the wait was a bit long — check-in could be a lot smoother.”</span></div>
             </div>
             <div class="tagrow"><span class="datatag">#wait_time</span><span class="datatag">#check_in</span><span class="datatag lime">sentiment −0.4</span></div>
           </div>
         </div>
         <div class="tab-panel" role="tabpanel" id="panel-2" aria-labelledby="tab-2" hidden>
-          <p class="lede">Chaque profil a son propre fil ; la question suivante évolue selon la personne.</p>
+          <p class="lede"><span data-lang="fr">Chaque profil a son propre fil ; la question suivante évolue selon la personne.</span><span data-lang="en" hidden>Every profile gets its own thread; the next question evolves per person.</span></p>
           <div class="example-card">
             <div class="bubble-row">
-              <div class="bubble them">« La dernière fois, vous aviez mentionné le stationnement — est-ce que ça s'est amélioré depuis ? »</div>
+              <div class="bubble them"><span data-lang="fr">« La dernière fois, vous aviez mentionné le stationnement — est-ce que ça s'est amélioré depuis ? »</span><span data-lang="en" hidden>“Last time you mentioned parking — has that improved since?”</span></div>
             </div>
-            <div class="tagrow"><span class="datatag">ton · chaleureux</span><span class="datatag lime">Léa M. · 12 visites</span></div>
+            <div class="tagrow"><span class="datatag"><span data-lang="fr">ton · chaleureux</span><span data-lang="en" hidden>tone · warm</span></span><span class="datatag lime">Léa M. · <span data-lang="fr">12 visites</span><span data-lang="en" hidden>12 visits</span></span></div>
           </div>
         </div>
         <div class="tab-panel" role="tabpanel" id="panel-3" aria-labelledby="tab-3" hidden>
-          <p class="lede">Des milliers de voix se combinent en thèmes que vous pouvez classer et exploiter.</p>
+          <p class="lede"><span data-lang="fr">Des milliers de voix se combinent en thèmes que vous pouvez classer et exploiter.</span><span data-lang="en" hidden>Thousands of voices compound into themes you can rank and act on.</span></p>
           <div class="example-card">
             <div class="stat-mini-row">
-              <div class="stat-mini"><b>78%</b><span>Chaleur du personnel</span></div>
-              <div class="stat-mini"><b>64%</b><span>Accueil plus rapide</span></div>
-              <div class="stat-mini"><b>41%</b><span>Commande à l'avance</span></div>
+              <div class="stat-mini"><b>78%</b><span><span data-lang="fr">Chaleur du personnel</span><span data-lang="en" hidden>Staff warmth</span></span></div>
+              <div class="stat-mini"><b>64%</b><span><span data-lang="fr">Accueil plus rapide</span><span data-lang="en" hidden>Faster check-in</span></span></div>
+              <div class="stat-mini"><b>41%</b><span><span data-lang="fr">Commande à l'avance</span><span data-lang="en" hidden>Order ahead</span></span></div>
             </div>
           </div>
         </div>
         <div class="tab-panel" role="tabpanel" id="panel-4" aria-labelledby="tab-4" hidden>
-          <p class="lede">Le collectif, rendu visible — noté, traçable et toujours à jour.</p>
+          <p class="lede"><span data-lang="fr">Le collectif, rendu visible — noté, traçable et toujours à jour.</span><span data-lang="en" hidden>The collective, made visible — scored, traceable and always current.</span></p>
           <div class="example-card">
             <div class="stat-mini-row">
-              <div class="stat-mini"><b>1 284</b><span>conversations</span></div>
-              <div class="stat-mini"><b>3</b><span>thèmes émergents</span></div>
-              <div class="stat-mini"><b>92</b><span>Trust Score collectif</span></div>
+              <div class="stat-mini"><b>1 284</b><span><span data-lang="fr">conversations</span><span data-lang="en" hidden>conversations</span></span></div>
+              <div class="stat-mini"><b>3</b><span><span data-lang="fr">thèmes émergents</span><span data-lang="en" hidden>themes emerging</span></span></div>
+              <div class="stat-mini"><b>92</b><span><span data-lang="fr">Trust Score collectif</span><span data-lang="en" hidden>Collective Trust Score</span></span></div>
             </div>
           </div>
         </div>
@@ -774,9 +802,9 @@
       </svg>
     </div>
     <div>
-      <p class="eyebrow">Pourquoi Pando</p>
-      <h2 id="value-title">De voix éparses à une intelligence vivante.</h2>
-      <p class="lede">Chaque conversation nourrit le même arbre. Les voix individuelles convergent vers un tronc commun de contexte partagé, puis se déploient à nouveau sous forme de graphe de connaissances vivant — plus Pando échange avec du monde, plus l'image d'ensemble devient nette pour tous ceux qui la consultent.</p>
+      <p class="eyebrow"><span data-lang="fr">Pourquoi Pando</span><span data-lang="en" hidden>Why Pando</span></p>
+      <h2 id="value-title"><span data-lang="fr">De voix éparses à une intelligence vivante.</span><span data-lang="en" hidden>From scattered voices to one living intelligence.</span></h2>
+      <p class="lede"><span data-lang="fr">Chaque conversation nourrit le même arbre. Les voix individuelles convergent vers un tronc commun de contexte partagé, puis se déploient à nouveau sous forme de graphe de connaissances vivant — plus Pando échange avec du monde, plus l'image d'ensemble devient nette pour tous ceux qui la consultent.</span><span data-lang="en" hidden>Every conversation feeds the same tree. Individual voices converge into a single trunk of shared context, then branch back out as a living knowledge graph — so the more people Pando talks to, the sharper the whole picture gets for everyone reading it.</span></p>
     </div>
   </div>
 </section>
@@ -784,17 +812,17 @@
 <section class="section" id="technology" aria-labelledby="tech-title">
   <div class="wrap">
     <div class="section-head reveal">
-      <p class="eyebrow">Technologie clé</p>
-      <h2 id="tech-title">Deux avancées sous le capot</h2>
-      <p class="lede">Une carte vivante de la perception, et une couche de confiance qui rend chaque insight vérifiable.</p>
+      <p class="eyebrow"><span data-lang="fr">Technologie clé</span><span data-lang="en" hidden>Core technology</span></p>
+      <h2 id="tech-title"><span data-lang="fr">Deux avancées sous le capot</span><span data-lang="en" hidden>Two breakthroughs under the hood</span></h2>
+      <p class="lede"><span data-lang="fr">Une carte vivante de la perception, et une couche de confiance qui rend chaque insight vérifiable.</span><span data-lang="en" hidden>A living map of perception, and a trust layer that makes every insight auditable.</span></p>
     </div>
     <div class="tech-grid">
       <div class="tech-card reveal">
-        <p class="eyebrow" style="color:var(--accent-bright)">La carte vivante</p>
-        <h3>Graphe de connaissances basé sur l'ADN</h3>
-        <p>Chaque entité porte un #DNA qui se réécrit à chaque vraie conversation — une carte vivante de la perception qui ne cesse de grandir.</p>
+        <p class="eyebrow" style="color:var(--accent-bright)"><span data-lang="fr">La carte vivante</span><span data-lang="en" hidden>The living map</span></p>
+        <h3><span data-lang="fr">Graphe de connaissances basé sur l'ADN</span><span data-lang="en" hidden>DNA-based Knowledge Graph</span></h3>
+        <p><span data-lang="fr">Chaque entité porte un #DNA qui se réécrit à chaque vraie conversation — une carte vivante de la perception qui ne cesse de grandir.</span><span data-lang="en" hidden>Every entity carries a #DNA that rewrites itself with each real conversation — a living map of perception that never stops growing.</span></p>
         <div class="dna-card">
-          <p class="name">#DNA · Le Petit Marché — 8 signaux actifs · en direct</p>
+          <p class="name">#DNA · Le Petit Marché — <span data-lang="fr">8 signaux actifs · en direct</span><span data-lang="en" hidden>8 signal strands · live</span></p>
           <div class="dna-tags">
             <span class="datatag lime">#taste 92</span>
             <span class="datatag lime">#trust 94</span>
@@ -804,38 +832,38 @@
         </div>
       </div>
       <div class="tech-card reveal r1">
-        <p class="eyebrow" style="color:var(--amber-deep)">La couche de confiance</p>
+        <p class="eyebrow" style="color:var(--amber-deep)"><span data-lang="fr">La couche de confiance</span><span data-lang="en" hidden>The trust layer</span></p>
         <h3>Trust Scoring</h3>
-        <p>Un Trust Score propriétaire pondère chaque contribution — pour un insight complet et réellement fiable.</p>
+        <p><span data-lang="fr">Un Trust Score propriétaire pondère chaque contribution — pour un insight complet et réellement fiable.</span><span data-lang="en" hidden>A proprietary Trust Score weighs every input — so insight is comprehensive and reliably trustworthy.</span></p>
         <div class="dna-card" style="padding-top:6px;">
           <div class="trust-tier">
-            <div class="trust-tier-row"><span>Expert vérifié du domaine</span><b data-countup>94</b></div>
+            <div class="trust-tier-row"><span><span data-lang="fr">Expert vérifié du domaine</span><span data-lang="en" hidden>Verified domain expert</span></span><b data-countup>94</b></div>
             <div class="trust-tier-bar"><span class="tier-fill" style="--fill:94%"></span></div>
           </div>
           <div class="trust-tier">
-            <div class="trust-tier-row"><span>Utilisateur engagé de longue date</span><b data-countup>82</b></div>
+            <div class="trust-tier-row"><span><span data-lang="fr">Utilisateur engagé de longue date</span><span data-lang="en" hidden>Long-term engaged user</span></span><b data-countup>82</b></div>
             <div class="trust-tier-bar"><span class="tier-fill" style="--fill:82%"></span></div>
           </div>
           <div class="trust-tier">
-            <div class="trust-tier-row"><span>Client vérifié</span><b data-countup>71</b></div>
+            <div class="trust-tier-row"><span><span data-lang="fr">Client vérifié</span><span data-lang="en" hidden>Verified customer</span></span><b data-countup>71</b></div>
             <div class="trust-tier-bar"><span class="tier-fill" style="--fill:71%"></span></div>
           </div>
           <div class="trust-tier">
-            <div class="trust-tier-row"><span>Nouvelle contribution anonyme</span><b data-countup>34</b></div>
+            <div class="trust-tier-row"><span><span data-lang="fr">Nouvelle contribution anonyme</span><span data-lang="en" hidden>New anonymous input</span></span><b data-countup>34</b></div>
             <div class="trust-tier-bar"><span class="tier-fill" style="--fill:34%"></span></div>
           </div>
           <div class="trust-tier">
-            <div class="trust-tier-row"><span>Schéma synthétique signalé</span><b data-countup>11</b></div>
+            <div class="trust-tier-row"><span><span data-lang="fr">Schéma synthétique signalé</span><span data-lang="en" hidden>Flagged synthetic pattern</span></span><b data-countup>11</b></div>
             <div class="trust-tier-bar"><span class="tier-fill" style="--fill:11%"></span></div>
           </div>
         </div>
       </div>
     </div>
     <div class="pillars">
-      <div class="pillar reveal"><b>Contexte de la source</b>D'où vient la contribution, et la crédibilité de cette origine.</div>
-      <div class="pillar reveal r1"><b>Historique de l'utilisateur</b>Le parcours et la constance de la personne derrière la contribution.</div>
-      <div class="pillar reveal r2"><b>Crédibilité thématique</b>Une expertise démontrée sur le sujet précis en question.</div>
-      <div class="pillar reveal r3"><b>Intégrité des données</b>Les schémas synthétiques et coordonnés sont détectés et pondérés à la baisse.</div>
+      <div class="pillar reveal"><b><span data-lang="fr">Contexte de la source</span><span data-lang="en" hidden>Source context</span></b><span data-lang="fr">D'où vient la contribution, et la crédibilité de cette origine.</span><span data-lang="en" hidden>Where the input came from, and how credible that origin is.</span></div>
+      <div class="pillar reveal r1"><b><span data-lang="fr">Historique de l'utilisateur</span><span data-lang="en" hidden>User history</span></b><span data-lang="fr">Le parcours et la constance de la personne derrière la contribution.</span><span data-lang="en" hidden>The track record and consistency of the person behind it.</span></div>
+      <div class="pillar reveal r2"><b><span data-lang="fr">Crédibilité thématique</span><span data-lang="en" hidden>Topical credibility</span></b><span data-lang="fr">Une expertise démontrée sur le sujet précis en question.</span><span data-lang="en" hidden>Demonstrated expertise on the specific subject at hand.</span></div>
+      <div class="pillar reveal r3"><b><span data-lang="fr">Intégrité des données</span><span data-lang="en" hidden>Data integrity</span></b><span data-lang="fr">Les schémas synthétiques et coordonnés sont détectés et pondérés à la baisse.</span><span data-lang="en" hidden>Synthetic and coordinated patterns are detected and down-weighted.</span></div>
     </div>
   </div>
 </section>
@@ -843,22 +871,22 @@
 <section class="section" id="trust" aria-labelledby="trust-title">
   <div class="wrap">
     <div class="section-head reveal">
-      <p class="eyebrow">Confiance &amp; RGPD</p>
-      <h2 id="trust-title">Consentement d'abord, conforme dès la conception</h2>
-      <p class="lede">La confiance n'est pas une simple page de mentions légales — elle est intégrée à chaque appel, chaque enregistrement, chaque export.</p>
+      <p class="eyebrow"><span data-lang="fr">Confiance &amp; RGPD</span><span data-lang="en" hidden>Trust &amp; GDPR</span></p>
+      <h2 id="trust-title"><span data-lang="fr">Consentement d'abord, conforme dès la conception</span><span data-lang="en" hidden>Consent-first, compliant by design</span></h2>
+      <p class="lede"><span data-lang="fr">La confiance n'est pas une simple page de mentions légales — elle est intégrée à chaque appel, chaque enregistrement, chaque export.</span><span data-lang="en" hidden>Trust isn't a policy page — it's built into every call, every record, every export.</span></p>
     </div>
     <div class="trio">
       <div class="trio-card reveal">
-        <h3>Des appels basés sur le consentement</h3>
-        <p>Chaque conversation commence par un consentement explicite. Refuser met fin à l'appel — sans aucune question.</p>
+        <h3><span data-lang="fr">Des appels basés sur le consentement</span><span data-lang="en" hidden>Consent-first calls</span></h3>
+        <p><span data-lang="fr">Chaque conversation commence par un consentement explicite. Refuser met fin à l'appel — sans aucune question.</span><span data-lang="en" hidden>Every conversation opens with a clear opt-in. Declining ends the call — no questions asked.</span></p>
       </div>
       <div class="trio-card reveal r1">
-        <h3>Conforme au RGPD dès la conception</h3>
-        <p>Base légale, limitation des finalités et droit à l'effacement sont intégrés au processus, pas ajoutés après coup.</p>
+        <h3><span data-lang="fr">Conforme au RGPD dès la conception</span><span data-lang="en" hidden>GDPR-compliant by design</span></h3>
+        <p><span data-lang="fr">Base légale, limitation des finalités et droit à l'effacement sont intégrés au processus, pas ajoutés après coup.</span><span data-lang="en" hidden>Lawful basis, purpose limitation and erasure requests are built into the pipeline, not bolted on.</span></p>
       </div>
       <div class="trio-card reveal r2">
-        <h3>Les données restent dans l'UE</h3>
-        <p>Hébergées et traitées au sein de l'Union européenne, avec une traçabilité complète derrière chaque insight.</p>
+        <h3><span data-lang="fr">Les données restent dans l'UE</span><span data-lang="en" hidden>Data stays in the EU</span></h3>
+        <p><span data-lang="fr">Hébergées et traitées au sein de l'Union européenne, avec une traçabilité complète derrière chaque insight.</span><span data-lang="en" hidden>Hosted and processed in the European Union, with a full audit trail behind every insight.</span></p>
       </div>
     </div>
   </div>
@@ -867,62 +895,56 @@
 <section class="section" id="customers" aria-labelledby="customers-title">
   <div class="wrap">
     <div class="results-stats">
-      <div class="card reveal"><b data-countup>10x</b><span>Une profondeur inégalée — les conversations révèlent des nuances qu'aucun formulaire n'atteint.</span></div>
-      <div class="card reveal r1"><b>En direct</b><span>Toujours à jour — une image qui évolue en continu, pas un instantané trimestriel.</span></div>
-      <div class="card reveal r2"><b data-countup>100%</b><span>Traçable — chaque insight porte un Trust Score qui remonte à sa source.</span></div>
+      <div class="card reveal"><b data-countup>10x</b><span><span data-lang="fr">Une profondeur inégalée — les conversations révèlent des nuances qu'aucun formulaire n'atteint.</span><span data-lang="en" hidden>Deeper input — conversations surface nuance forms never reach.</span></span></div>
+      <div class="card reveal r1"><b><span data-lang="fr">En direct</span><span data-lang="en" hidden>Live</span></b><span><span data-lang="fr">Toujours à jour — une image qui évolue en continu, pas un instantané trimestriel.</span><span data-lang="en" hidden>Always current — a continuously updating picture, not a quarterly snapshot.</span></span></div>
+      <div class="card reveal r2"><b data-countup>100%</b><span><span data-lang="fr">Traçable — chaque insight porte un Trust Score qui remonte à sa source.</span><span data-lang="en" hidden>Traceable — every insight carries a Trust Score back to its source.</span></span></div>
     </div>
 
     <div class="section-head reveal">
-      <p class="eyebrow">Adopté par des équipes qui écoutent</p>
-      <h2 id="customers-title">Un feedback enfin fiable.</h2>
-      <p class="lede">Chaque voix est accompagnée de son Trust Score et des thèmes qu'elle a réellement façonnés. Une vraie profondeur. Une vraie redevabilité.</p>
+      <p class="eyebrow"><span data-lang="fr">Adopté par des équipes qui écoutent</span><span data-lang="en" hidden>Trusted by teams who listen</span></p>
+      <h2 id="customers-title"><span data-lang="fr">Un feedback enfin fiable.</span><span data-lang="en" hidden>Feedback you can finally trust.</span></h2>
+      <p class="lede"><span data-lang="fr">Chaque voix est accompagnée de son Trust Score et des thèmes qu'elle a réellement façonnés. Une vraie profondeur. Une vraie redevabilité.</span><span data-lang="en" hidden>Every voice sits next to its Trust Score and the themes it actually shaped. Real depth. Real accountability.</span></p>
     </div>
 
     <div class="testi-grid">
       <figure class="testi-card reveal">
-        <blockquote class="testi-quote">« Nous entendons enfin le ‘pourquoi’ derrière les chiffres. Pando a fait émerger en une seule semaine des thèmes que notre enquête trimestrielle enterrait depuis des années. »</blockquote>
+        <blockquote class="testi-quote"><span data-lang="fr">« Nous entendons enfin le ‘pourquoi’ derrière les chiffres. Pando a fait émerger en une seule semaine des thèmes que notre enquête trimestrielle enterrait depuis des années. »</span><span data-lang="en" hidden>“We finally hear the 'why' behind the numbers. Pando surfaced themes our quarterly survey had buried for years — in a single week.”</span></blockquote>
         <div class="testi-tags"><span class="datatag lime">#depth 10×</span><span class="datatag">#live_signal</span></div>
-        <figcaption class="testi-person"><b>Élodie Rousseau</b>Directrice de l'expérience client · groupe de distribution européen</figcaption>
+        <figcaption class="testi-person"><b>Élodie Rousseau</b><span data-lang="fr">Directrice de l'expérience client · groupe de distribution européen</span><span data-lang="en" hidden>Head of CX · European retail group</span></figcaption>
       </figure>
       <figure class="testi-card reveal r1">
-        <blockquote class="testi-quote">« Chaque insight arrive avec un Trust Score que je peux vraiment vérifier. Ce seul changement a transformé la façon dont mon conseil d'administration considère le feedback. »</blockquote>
+        <blockquote class="testi-quote"><span data-lang="fr">« Chaque insight arrive avec un Trust Score que je peux vraiment vérifier. Ce seul changement a transformé la façon dont mon conseil d'administration considère le feedback. »</span><span data-lang="en" hidden>“Every insight comes with a Trust Score I can actually audit. That single change shifted how my board treats feedback entirely.”</span></blockquote>
         <div class="testi-tags"><span class="datatag lime">#trust_score</span><span class="datatag">#verified</span></div>
-        <figcaption class="testi-person"><b>Marc Devlin</b>Directeur des opérations · réseau de santé</figcaption>
+        <figcaption class="testi-person"><b>Marc Devlin</b><span data-lang="fr">Directeur des opérations · réseau de santé</span><span data-lang="en" hidden>COO · Healthcare network</span></figcaption>
       </figure>
       <figure class="testi-card reveal r2">
-        <blockquote class="testi-quote">« Les citoyens ont parlé à Pando comme à une personne, pas à un formulaire. La profondeur des réponses a été multipliée par dix et nous avons enfin entendu la majorité silencieuse. »</blockquote>
+        <blockquote class="testi-quote"><span data-lang="fr">« Les citoyens ont parlé à Pando comme à une personne, pas à un formulaire. La profondeur des réponses a été multipliée par dix et nous avons enfin entendu la majorité silencieuse. »</span><span data-lang="en" hidden>“Citizens talked to Pando like a person, not a form. Response depth went up tenfold and we finally heard the quiet majority.”</span></blockquote>
         <div class="testi-tags"><span class="datatag lime">#engagement</span><span class="datatag">#10x_depth</span></div>
-        <figcaption class="testi-person"><b>Aisha Bensaïd</b>Responsable innovation municipale · secteur public</figcaption>
+        <figcaption class="testi-person"><b>Aisha Bensaïd</b><span data-lang="fr">Responsable innovation municipale · secteur public</span><span data-lang="en" hidden>City innovation lead · Public sector</span></figcaption>
       </figure>
-      <div class="testi-card reserved reveal r3" aria-label="Emplacement réservé à un témoignage partenaire">
-        <div><p class="plus" aria-hidden="true">+</p><span>Emplacement réservé à<br>un témoignage partenaire</span></div>
-      </div>
-      <div class="testi-card reserved reveal r4" aria-label="Emplacement réservé à un témoignage partenaire">
-        <div><p class="plus" aria-hidden="true">+</p><span>Emplacement réservé à<br>un témoignage partenaire</span></div>
-      </div>
     </div>
   </div>
 </section>
 
 <section class="final-cta" id="demo" aria-labelledby="cta-title">
   <div class="wrap">
-    <p class="eyebrow" style="justify-content:center;">Commencer</p>
-    <h2 id="cta-title">Découvrez ce que vos parties prenantes vous disent vraiment</h2>
-    <p class="lede">Demandez une démo et nous cartographierons une intelligence vivante pour l'un de vos produits ou publics.</p>
+    <p class="eyebrow" style="justify-content:center;"><span data-lang="fr">Commencer</span><span data-lang="en" hidden>Get started</span></p>
+    <h2 id="cta-title"><span data-lang="fr">Découvrez ce que vos parties prenantes vous disent vraiment</span><span data-lang="en" hidden>See what your stakeholders are really telling you</span></h2>
+    <p class="lede"><span data-lang="fr">Demandez une démo et nous cartographierons une intelligence vivante pour l'un de vos produits ou publics.</span><span data-lang="en" hidden>Request a demo and we'll map a living intelligence for one of your products or audiences.</span></p>
     <form class="cta-row" id="finalForm" data-source="Final CTA">
-      <label class="sr-only" for="final-email">Email professionnel</label>
-      <input id="final-email" class="cta-input" type="email" name="email" autocomplete="email" inputmode="email" placeholder="Entrez votre email professionnel" required>
-      <button class="btn" type="submit">Demander une démo</button>
+      <label class="sr-only" for="final-email"><span data-lang="fr">Email professionnel</span><span data-lang="en" hidden>Professional email</span></label>
+      <input id="final-email" class="cta-input" type="email" name="email" autocomplete="email" inputmode="email" placeholder="Entrez votre email professionnel" data-i18n-fr-placeholder="Entrez votre email professionnel" data-i18n-en-placeholder="Enter your professional email" required>
+      <button class="btn" type="submit"><span data-lang="fr">Demander une démo</span><span data-lang="en" hidden>Request a demo</span></button>
     </form>
-    <p class="form-confirm" id="finalConfirm">✓ Merci — nous vous recontactons sous 24h.</p>
-    <p class="cta-micro">Présentation de 15 minutes · sans engagement · données conservées dans l'UE</p>
+    <p class="form-confirm" id="finalConfirm"><span data-lang="fr">✓ Merci — votre demande a bien été envoyée.</span><span data-lang="en" hidden>✓ Thanks — your request has been sent.</span></p>
+    <p class="cta-micro"><span data-lang="fr">Présentation de 15 minutes · sans engagement · données conservées dans l'UE</span><span data-lang="en" hidden>15-minute walkthrough · no commitment · data stays in the EU</span></p>
   </div>
 </section>
 
 </main>
 
 <div class="sticky-cta" id="stickyCta">
-  <button class="btn" onclick="focusHeroEmail()">Demander une démo</button>
+  <button class="btn" onclick="focusHeroEmail()"><span data-lang="fr">Demander une démo</span><span data-lang="en" hidden>Request a demo</span></button>
 </div>
 
 <footer>
@@ -930,28 +952,28 @@
     <div class="foot-grid">
       <div>
         <p class="logo">pand<span>.</span>ooo</p>
-        <p class="foot-desc">Des milliers de voix, une intelligence vivante. Conçu pour garder l'humain dans la boucle.</p>
+        <p class="foot-desc"><span data-lang="fr">Des milliers de voix, une intelligence vivante. Conçu pour garder l'humain dans la boucle.</span><span data-lang="en" hidden>Thousands of voices, one living intelligence. Built to keep humans in the loop.</span></p>
       </div>
       <nav aria-label="Liens produit">
-        <h2>Produit</h2>
-        <div class="foot-links"><a href="#hero">Aperçu</a><a href="#technology">Technologie</a><a href="#customers">Résultats</a></div>
+        <h2><span data-lang="fr">Produit</span><span data-lang="en" hidden>Product</span></h2>
+        <div class="foot-links"><a href="#hero"><span data-lang="fr">Aperçu</span><span data-lang="en" hidden>Overview</span></a><a href="#technology"><span data-lang="fr">Technologie</span><span data-lang="en" hidden>Technology</span></a><a href="#customers"><span data-lang="fr">Résultats</span><span data-lang="en" hidden>Outcomes</span></a></div>
       </nav>
       <nav aria-label="Liens entreprise">
-        <h2>Entreprise</h2>
-        <div class="foot-links"><a href="#">Écosystèmes</a><a href="#trust">Confiance &amp; RGPD</a><a href="mailto:support@cod.ooo">Contact</a></div>
+        <h2><span data-lang="fr">Entreprise</span><span data-lang="en" hidden>Company</span></h2>
+        <div class="foot-links"><a href="#"><span data-lang="fr">Écosystèmes</span><span data-lang="en" hidden>Ecosystems</span></a><a href="#trust"><span data-lang="fr">Confiance &amp; RGPD</span><span data-lang="en" hidden>Trust &amp; GDPR</span></a><a href="mailto:support@cod.ooo">Contact</a></div>
       </nav>
       <div>
-        <h2>Restez dans la looop</h2>
+        <h2><span data-lang="fr">Restez dans la looop</span><span data-lang="en" hidden>Stay in the looop</span></h2>
         <form class="newsletter-row" id="newsletterForm" data-source="Newsletter">
-          <label class="sr-only" for="newsletter-email">Email pour la newsletter</label>
-          <input id="newsletter-email" class="cta-input" type="email" name="email" autocomplete="email" inputmode="email" placeholder="Votre email" required>
-          <button class="btn" type="submit">S'abonner</button>
+          <label class="sr-only" for="newsletter-email"><span data-lang="fr">Email pour la newsletter</span><span data-lang="en" hidden>Email for newsletter</span></label>
+          <input id="newsletter-email" class="cta-input" type="email" name="email" autocomplete="email" inputmode="email" placeholder="Votre email" data-i18n-fr-placeholder="Votre email" data-i18n-en-placeholder="Your email" required>
+          <button class="btn" type="submit"><span data-lang="fr">S'abonner</span><span data-lang="en" hidden>Subscribe</span></button>
         </form>
       </div>
     </div>
     <div class="foot-bottom">
-      <span>© 2025–2026 Pando SAS — Paris, France. Tous droits réservés.</span>
-      <span><a href="#trust">RGPD &amp; confiance</a> · <a href="mailto:support@cod.ooo">support@cod.ooo</a></span>
+      <span>© 2025–2026 Pando SAS — Paris, France. <span data-lang="fr">Tous droits réservés.</span><span data-lang="en" hidden>All rights reserved.</span></span>
+      <span><a href="#trust"><span data-lang="fr">RGPD &amp; confiance</span><span data-lang="en" hidden>GDPR &amp; trust</span></a> · <a href="mailto:support@cod.ooo">support@cod.ooo</a></span>
     </div>
   </div>
 </footer>
@@ -1006,10 +1028,18 @@
   const roleThumb = document.getElementById('roleThumb');
   const roleToggleEl = document.getElementById('roleToggle');
   const roleNotes = {
-    public: "Nous adapterons votre démo aux cas d'usage de retour citoyen et de consultation publique.",
-    enterprise: "Nous adapterons votre démo aux cas d'usage d'expérience client et de retour des parties prenantes."
+    fr: {
+      public: "Nous adapterons votre démo aux cas d'usage de retour citoyen et de consultation publique.",
+      enterprise: "Nous adapterons votre démo aux cas d'usage d'expérience client et de retour des parties prenantes."
+    },
+    en: {
+      public: "We'll tailor your demo to citizen-feedback and public-consultation use cases.",
+      enterprise: "We'll tailor your demo to customer-experience and stakeholder-feedback use cases."
+    }
   };
   let currentRole = 'public';
+  let currentLang = 'fr';
+  function updateRoleNote(){ roleNote.textContent = roleNotes[currentLang][currentRole]; }
   function moveThumb(btn){
     const toggleRect = roleToggleEl.getBoundingClientRect();
     const btnRect = btn.getBoundingClientRect();
@@ -1019,8 +1049,8 @@
   roleButtons.forEach(btn => {
     btn.addEventListener('click', () => {
       roleButtons.forEach(b => b.setAttribute('aria-pressed', b === btn));
-      roleNote.textContent = roleNotes[btn.dataset.role];
       currentRole = btn.dataset.role;
+      updateRoleNote();
       moveThumb(btn);
     });
   });
@@ -1029,6 +1059,35 @@
     const active = Array.from(roleButtons).find(b => b.getAttribute('aria-pressed') === 'true');
     if (active) moveThumb(active);
   });
+
+  // ---- Language switch (FR default / EN) ----
+  (function(){
+    const langButtons = document.querySelectorAll('[data-lang-btn]');
+    function applyLanguage(lang){
+      currentLang = lang;
+      document.documentElement.lang = lang;
+      document.querySelectorAll('[data-lang]').forEach(el => {
+        el.hidden = el.getAttribute('data-lang') !== lang;
+      });
+      document.querySelectorAll('[data-i18n-fr-placeholder]').forEach(el => {
+        el.placeholder = lang === 'fr'
+          ? el.getAttribute('data-i18n-fr-placeholder')
+          : el.getAttribute('data-i18n-en-placeholder');
+      });
+      langButtons.forEach(b => b.setAttribute('aria-pressed', b.dataset.langBtn === lang));
+      updateRoleNote();
+      try { localStorage.setItem('pando_lang', lang); } catch(e){}
+    }
+    langButtons.forEach(btn => {
+      btn.addEventListener('click', () => applyLanguage(btn.dataset.langBtn));
+    });
+    let initial = 'fr';
+    try {
+      const saved = localStorage.getItem('pando_lang');
+      if (saved === 'fr' || saved === 'en') initial = saved;
+    } catch(e){}
+    applyLanguage(initial);
+  })();
 
   const stickyCta = document.getElementById('stickyCta');
   const hero = document.getElementById('hero');
@@ -1049,8 +1108,8 @@
   // ---- Hero headline highlighter marker ----
   const reduceMotionGlobal = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   requestAnimationFrame(() => {
-    const mark = document.getElementById('inkMark');
-    if (mark) setTimeout(() => mark.classList.add('is-marked'), reduceMotionGlobal ? 0 : 300);
+    const marks = document.querySelectorAll('.ink-mark');
+    if (marks.length) setTimeout(() => marks.forEach(m => m.classList.add('is-marked')), reduceMotionGlobal ? 0 : 300);
   });
 
   // ---- Reveal on scroll ----
